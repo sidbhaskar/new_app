@@ -14,32 +14,68 @@ class DialogBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Container(
-        height: 200,
-        // width: 400,
-        child: Column(
-          children: [
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Add a new Task",
+    return Scaffold(
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(18),
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.close, size: 50),
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 35),
+                child: TextField(
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w400),
+                  autofocus: true,
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Enter new task',
+                    hintStyle: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
             ),
-            Row(
+          ),
+          TextButton(onPressed: onSave, child: Text('New Task'))
+        ],
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Container(
+          width: 150,
+          child: FloatingActionButton(
+            onPressed: onSave,
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MyButtons(
-                  text: 'SAve',
-                  onPressed: onSave,
+                Text(
+                  'New Task',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
                 ),
-                MyButtons(
-                  text: 'cancel',
-                  onPressed: onCancel,
+                Icon(
+                  Icons.keyboard_arrow_up_outlined,
+                  size: 25,
                 )
               ],
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );

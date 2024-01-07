@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:new_app/database/hive_box.dart';
 import 'package:new_app/widgets/dialog_box.dart';
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       db.toDoList[index][0] = !db.toDoList[index][0];
     });
-    db.loadDatabase();
+    db.updateDatabase();
   }
 
   void saveNewTask() {
@@ -69,30 +70,79 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Ek or TODO LIST wala app :)'),
-        ),
-        floatingActionButton: FloatingActionButton(
+      backgroundColor: Color.fromARGB(255, 244, 246, 253),
+      //! app bar
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 244, 246, 253),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      drawer: Drawer(),
+      floatingActionButton: SizedBox(
+        height: 70,
+        width: 70,
+        child: FloatingActionButton(
+          shape: CircleBorder(),
+          tooltip: 'Add Notes',
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
           onPressed: () {
             createNewTask();
           },
         ),
-        body: Center(
-          child: ListView.builder(
-            itemCount: db.toDoList.length,
-            itemBuilder: (context, index) {
-              return ToDoTile(
-                checkvalue: db.toDoList[index][0],
-                taskName: db.toDoList[index][1],
-                onChanged: (value) {
-                  checkBoxChanged(value, index);
-                },
-                deleteFunction: (context) {
-                  deleteTask(index);
-                },
-              );
-            },
+      ),
+
+      //! body ...
+
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              'What\'s up, Sid!',
+              style: GoogleFonts.poppins(
+                fontSize: 35,
+                fontWeight: FontWeight.w700,
+                color: Color.fromARGB(195, 0, 0, 0),
+              ),
+            ),
           ),
-        ));
+          const Padding(
+            padding: EdgeInsets.only(bottom: 20, left: 20),
+            child: Text(
+              'T O D A Y \' S   T A S K S',
+              style: TextStyle(color: Colors.black45),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: db.toDoList.length,
+              itemBuilder: (context, index) {
+                return ToDoTile(
+                  checkvalue: db.toDoList[index][0],
+                  taskName: db.toDoList[index][1],
+                  onChanged: (value) {
+                    checkBoxChanged(value, index);
+                  },
+                  deleteFunction: (context) {
+                    deleteTask(index);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
